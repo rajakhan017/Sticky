@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sticky Notes App</title>
+<style>
+  body{
+    background-color: rgb(62, 145, 217);
+  }
+  button {
+    background-color: #0077FF; /* Your chosen background color */
+    border: 2px solid #0055DD; /* Border color and thickness */
+    border-radius: 4px; /* Adjust for the desired roundness */
+    color: #FFFFFF; /* Text color for contrast */
+    padding: 12px 24px; /* Adjust padding for size */
+    text-align: center; /* Center text horizontally within the button */
+    text-decoration: none; /* Remove underlines for links */
+    display: inline-block; /* Make it a block element for proper layout */
+    font-size: 16px; /* Adjust font size as needed */
+   }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+   }
+   #note-text{
+    width: 350px; /* Adjust the width as needed */
+ height: 120px; /* Adjust the height as needed */
+ border: 2px solid #CCCCCC; /* Border color and thickness */
+ border-radius: 6px; /* Adjust for the desired roundness */
+ padding: 10px; /* Adjust padding for spacing inside the text area */
+ font-size: 16px; /* Adjust font size as needed */
+   }
+   .note {
+      width: 200px;
+      height: 150px;
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #000;
+      display: inline-block;
+      word-wrap: break-word;
+      resize: both;
+      overflow: auto;
+      transition: transform 0.2s, background-color 0.2s;
+   }
+   .controls {
+      margin-top: 20px;
+   }
+   .color-palette {
+      margin-right: 10px;
+   }
+</style>
+</head>
+<body>
+<div class="container">
+<div id="note-container">
+<!-- Sticky Notes will be added here -->
+</div>
+<div class="controls">
+<input type="color" id="color-picker" class="color-palette">
+<input type="text" id="note-text" placeholder="Enter text">
+<button id="add-note">Add Note</button>
+</div>
+</div>
+<script>
+    const noteContainer = document.getElementById('note-container');
+   const colorPicker = document.getElementById('color-picker');
+   const addNoteButton = document.getElementById('add-note');
+   const noteText = document.getElementById('note-text');
+   
+   // Function to add a new note
+   function addNote() {
+       const text = noteText.value;
+       if (text) {
+           const note = document.createElement('div');
+           note.className = 'note';
+           note.style.backgroundColor = colorPicker.value;
+           note.style.transform = 'scale(0.9)'; // Initial animation
+           setTimeout(() => {
+               note.style.transform = 'scale(1)';
+           }, 100);
+           const noteContent = document.createElement('div');
+           noteContent.textContent = text;
+           const deleteButton = document.createElement('button');
+           deleteButton.innerText = 'Delete';
+           deleteButton.addEventListener('click', () => {
+               noteContainer.removeChild(note);
+           });
+           note.appendChild(noteContent);
+           note.appendChild(deleteButton);
+           noteContainer.appendChild(note);
+           // Clear the input field
+           noteText.value = '';
+       }
+   }
+   // Event listener for the "Add Note" button
+   addNoteButton.addEventListener('click', addNote);
+</script>
+</body>
+</html>
